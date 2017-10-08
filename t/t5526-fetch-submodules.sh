@@ -485,7 +485,7 @@ test_expect_success "don't fetch submodule when newly recorded commits are alrea
 	)
 '
 
-test_expect_success "'fetch.recurseSubmodules=on-demand' works also without .gitmodule entry" '
+test_expect_failure "'fetch.recurseSubmodules=on-demand' works also without .gitmodule entry" '
 	(
 		cd downstream &&
 		git fetch --recurse-submodules
@@ -570,7 +570,7 @@ test_expect_success 'fetching submodule into a broken repository' '
 	test_must_fail git -C dst fetch --recurse-submodules
 '
 
-test_expect_success "fetch new commits when submodule got renamed" '
+test_expect_failure "fetch new commits when submodule got renamed" '
 	git clone . downstream_rename &&
 	(
 		cd downstream_rename &&
