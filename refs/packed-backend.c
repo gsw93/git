@@ -319,7 +319,7 @@ static struct ref_entry *get_packed_ref(struct packed_ref_store *refs,
 }
 
 static int packed_read_raw_ref(struct ref_store *ref_store,
-			       const char *refname, unsigned char *sha1,
+			       const char *refname, struct object_id *oid,
 			       struct strbuf *referent, unsigned int *type)
 {
 	struct packed_ref_store *refs =
@@ -335,7 +335,7 @@ static int packed_read_raw_ref(struct ref_store *ref_store,
 		return -1;
 	}
 
-	hashcpy(sha1, entry->u.value.oid.hash);
+	oidcpy(oid, &entry->u.value.oid);
 	*type = REF_ISPACKED;
 	return 0;
 }
