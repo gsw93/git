@@ -549,7 +549,7 @@ typedef int ref_transaction_commit_fn(struct ref_store *refs,
 
 typedef int pack_refs_fn(struct ref_store *ref_store, unsigned int flags);
 typedef int peel_ref_fn(struct ref_store *ref_store,
-			const char *refname, unsigned char *sha1);
+			const char *refname, struct object_id *oid);
 typedef int create_symref_fn(struct ref_store *ref_store,
 			     const char *ref_target,
 			     const char *refs_heads_master,

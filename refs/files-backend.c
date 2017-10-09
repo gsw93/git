@@ -642,7 +642,7 @@ out:
 }
 
 static int files_peel_ref(struct ref_store *ref_store,
-			  const char *refname, unsigned char *sha1)
+			  const char *refname, struct object_id *oid)
 {
 	struct files_ref_store *refs =
 		files_downcast(ref_store, REF_STORE_READ | REF_STORE_ODB,
@@ -655,7 +655,7 @@ static int files_peel_ref(struct ref_store *ref_store,
 
 		if (ref_iterator_peel(current_ref_iter, &peeled))
 			return -1;
-		hashcpy(sha1, peeled.hash);
+		oidcpy(oid, &peeled);
 		return 0;
 	}
 
@@ -672,10 +672,10 @@ static int files_peel_ref(struct ref_store *ref_store,
 	 * have REF_KNOWS_PEELED.
 	 */
 	if (flag & REF_ISPACKED &&
-	    !refs_peel_ref(refs->packed_ref_store, refname, sha1))
+	    !refs_peel_ref(refs->packed_ref_store, refname, oid))
 		return 0;
 
-	return peel_object(base.hash, sha1);
+	return peel_object(base.hash, oid->hash);
 }
 
 struct files_ref_iterator {

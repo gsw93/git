@@ -1675,14 +1675,14 @@ int refs_pack_refs(struct ref_store *refs, unsigned int flags)
 }
 
 int refs_peel_ref(struct ref_store *refs, const char *refname,
-		  unsigned char *sha1)
+		  struct object_id *oid)
 {
-	return refs->be->peel_ref(refs, refname, sha1);
+	return refs->be->peel_ref(refs, refname, oid);
 }
 
-int peel_ref(const char *refname, unsigned char *sha1)
+int peel_ref(const char *refname, struct object_id *oid)
 {
-	return refs_peel_ref(get_main_ref_store(), refname, sha1);
+	return refs_peel_ref(get_main_ref_store(), refname, oid);
 }
 
 int refs_create_symref(struct ref_store *refs,

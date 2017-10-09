@@ -341,7 +341,7 @@ static int packed_read_raw_ref(struct ref_store *ref_store,
 }
 
 static int packed_peel_ref(struct ref_store *ref_store,
-			   const char *refname, unsigned char *sha1)
+			   const char *refname, struct object_id *oid)
 {
 	struct packed_ref_store *refs =
 		packed_downcast(ref_store, REF_STORE_READ | REF_STORE_ODB,
@@ -351,7 +351,7 @@ static int packed_peel_ref(struct ref_store *ref_store,
 	if (!r || peel_entry(r, 0))
 		return -1;
 
-	hashcpy(sha1, r->u.value.peeled.hash);
+	oidcpy(oid, &r->u.value.peeled);
 	return 0;
 }
 
