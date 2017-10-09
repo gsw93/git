@@ -961,7 +961,7 @@ static struct ref_lock *lock_ref_sha1_basic(struct files_ref_store *refs,
 
 struct ref_to_prune {
 	struct ref_to_prune *next;
-	unsigned char sha1[20];
+	struct object_id oid;
 	char name[FLEX_ARRAY];
 };
 
@@ -1029,7 +1029,7 @@ static void prune_ref(struct files_ref_store *refs, struct ref_to_prune *r)
 
 	transaction = ref_store_transaction_begin(&refs->base, &err);
 	if (!transaction ||
-	    ref_transaction_delete(transaction, r->name, r->sha1,
+	    ref_transaction_delete(transaction, r->name, r->oid.hash,
 				   REF_ISPRUNING | REF_NODEREF, NULL, &err) ||
 	    ref_transaction_commit(transaction, &err)) {
 		ref_transaction_free(transaction);
@@ -1123,7 +1123,7 @@ static int files_pack_refs(struct ref_store *ref_store, unsigned int flags)
 		if ((flags & PACK_REFS_PRUNE)) {
 			struct ref_to_prune *n;
 			FLEX_ALLOC_STR(n, name, iter->refname);
-			hashcpy(n->sha1, iter->oid->hash);
+			oidcpy(&n->oid, iter->oid);
 			n->next = refs_to_prune;
 			refs_to_prune = n;
 		}
