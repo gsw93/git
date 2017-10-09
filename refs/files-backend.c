@@ -675,7 +675,7 @@ static int files_peel_ref(struct ref_store *ref_store,
 	    !refs_peel_ref(refs->packed_ref_store, refname, oid))
 		return 0;
 
-	return peel_object(base.hash, oid->hash);
+	return peel_object(&base, oid);
 }
 
 struct files_ref_iterator {

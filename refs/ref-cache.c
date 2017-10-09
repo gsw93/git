@@ -509,7 +509,7 @@ enum peel_status peel_entry(struct ref_entry *entry, int repeel)
 	if (entry->flag & REF_ISSYMREF)
 		return PEEL_IS_SYMREF;
 
-	status = peel_object(entry->u.value.oid.hash, entry->u.value.peeled.hash);
+	status = peel_object(&entry->u.value.oid, &entry->u.value.peeled);
 	if (status == PEEL_PEELED || status == PEEL_NON_TAG)
 		entry->flag |= REF_KNOWS_PEELED;
 	return status;
