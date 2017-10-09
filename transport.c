@@ -475,7 +475,7 @@ void transport_print_push_status(const char *dest, struct ref *refs,
 	char *head;
 	int summary_width = transport_summary_width(refs);
 
-	head = resolve_refdup("HEAD", RESOLVE_REF_READING, head_oid.hash, NULL);
+	head = resolve_refdup("HEAD", RESOLVE_REF_READING, &head_oid, NULL);
 
 	if (verbose) {
 		for (ref = refs; ref; ref = ref->next)

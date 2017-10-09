@@ -297,7 +297,7 @@ static void head_atom_parser(const struct ref_format *format, struct used_atom *
 {
 	struct object_id unused;
 
-	atom->u.head = resolve_refdup("HEAD", RESOLVE_REF_READING, unused.hash, NULL);
+	atom->u.head = resolve_refdup("HEAD", RESOLVE_REF_READING, &unused, NULL);
 }
 
 static struct {
@@ -1319,7 +1319,7 @@ static void populate_value(struct ref_array_item *ref)
 	if (need_symref && (ref->flag & REF_ISSYMREF) && !ref->symref) {
 		struct object_id unused1;
 		ref->symref = resolve_refdup(ref->refname, RESOLVE_REF_READING,
-					     unused1.hash, NULL);
+					     &unused1, NULL);
 		if (!ref->symref)
 			ref->symref = "";
 	}

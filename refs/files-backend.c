@@ -2556,7 +2556,7 @@ static int files_transaction_prepare(struct ref_store *ref_store,
 	 */
 	head_ref = refs_resolve_refdup(ref_store, "HEAD",
 				       RESOLVE_REF_NO_RECURSE,
-				       head_oid.hash, &head_type);
+				       &head_oid, &head_type);
 
 	if (head_ref && !(head_type & REF_ISSYMREF)) {
 		FREE_AND_NULL(head_ref);
