@@ -1178,7 +1178,7 @@ color.ui::
 	or the `--color` option. Set it to `true` or `auto` to enable
 	color when output is written to the terminal (this is also the
 	default since Git 1.8.4). The value `always` is a historical
-	synonym for `auto`.
+	synonym for `auto` and its use is discouraged.
 
 column.ui::
 	Specify whether supported commands should output in columns.
