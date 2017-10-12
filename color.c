@@ -307,8 +307,28 @@ int git_config_colorbool(const char *var, const char *value)
 	if (value) {
 		if (!strcasecmp(value, "never"))
 			return 0;
-		if (!strcasecmp(value, "always"))
-			return var ? GIT_COLOR_AUTO : 1;
+		if (!strcasecmp(value, "always")) {
+			static int warn_once;
+
+			/*
+			 * Command-line options always respect "always".
+			 * Likewise for "-c" config on the command-line.
+			 */
+			if (!var ||
+			    current_config_scope() == CONFIG_SCOPE_CMDLINE)
+				return 1;
+
+			/*
+			 * Otherwise, we're looking at on-disk config;
+			 * downgrade to auto.
+			 */
+			if (!warn_once) {
+				warn_once++;
+				warning("setting '%s' to '%s' is no longer valid; "
+					"set it to 'auto' instead", var, value);
+			}
+			return GIT_COLOR_AUTO;
+		}
 		if (!strcasecmp(value, "auto"))
 			return GIT_COLOR_AUTO;
 	}
